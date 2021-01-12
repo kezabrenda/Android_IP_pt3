@@ -15,7 +15,8 @@
         android:layout_marginEnd="141dp"
         android:fontFamily="@font/aladin"
         android:text="Cleaning"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/locationTextView"
@@ -23,9 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="97dp"
+        android:layout_marginTop="127dp"
         android:text="Cleaning places near "
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="gone"/>
 
     <ListView
         android:id="@+id/listView"
@@ -39,5 +41,22 @@
         android:layout_marginTop="53dp"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="16dp"
+        android:visibility="gone" />
+
 </RelativeLayout>
