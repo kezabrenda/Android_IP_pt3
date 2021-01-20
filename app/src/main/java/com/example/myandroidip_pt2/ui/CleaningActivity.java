@@ -1,6 +1,8 @@
 package com.example.myandroidip_pt2.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myandroidip_pt2.adapters.CleaningListAdapter;
 import com.example.myandroidip_pt2.models.Business;
 import com.example.myandroidip_pt2.models.Category;
 import com.example.myandroidip_pt2.CleaningArrayAdapter;
@@ -29,10 +32,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CleaningActivity extends AppCompatActivity {
-    @BindView(R.id.listView) ListView mListView;
+    private static final String TAG = CleaningActivity.class.getSimpleName();
+
     @BindView(R.id.locationTextView) TextView mLocationTextView;
+    @BindView(R.id.listView) ListView mListView;
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     @BindView(R.id.errorTextView) TextView mErrorTextView;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
+
+    private CleaningListAdapter mAdapter;
+    public List<Business> dryCleaning;
 
     private String[] cleaningPlaces = new String[] {"Shalom Dry Cleaner", "Simply Clean",
             "Squeacky Clear", "Le Neat", "PROPRE", "Freshies"};
@@ -46,19 +55,9 @@ public class CleaningActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         CleaningArrayAdapter adapter = new CleaningArrayAdapter(this, android.R.layout.simple_list_item_1, cleaningPlaces, cleaningSections);
-        mListView.setAdapter(adapter);
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                String cleaningPlace = ((TextView)view).getText().toString();
-                Toast.makeText(CleaningActivity.this, cleaningPlace, Toast.LENGTH_LONG).show();
-            }
-        });
 
         Intent intent = getIntent();
         String location = intent.getStringExtra("location");
-        mLocationTextView.setText("Here are all the cleaning places near: " + location);
 
         YelpApi client = YelpClient.getClient();
         Call<YelpBusinessesSearchResponse> call = client.getDryCleaning(location, "Dry Cleaning");
@@ -81,10 +80,13 @@ public class CleaningActivity extends AppCompatActivity {
                         categories[i] = category.getTitle();
                     }
 
-                    ArrayAdapter adapter
-                            = new CleaningArrayAdapter(CleaningActivity.this, android.R.layout.simple_list_item_1, dryCleaning, categories);
+                    ArrayAdapter adapter = new CleaningArrayAdapter(CleaningActivity.this, android.R.layout.simple_list_item_1, dryCleaning, categories);
+
                     mListView.setAdapter(adapter);
 
+                    showDryCleaning();
+                } else {
+                    showUnsuccessfulMessage();
                 }
             }
             @Override
@@ -104,9 +106,8 @@ public class CleaningActivity extends AppCompatActivity {
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
-    private void showRestaurants() {
-        mListView.setVisibility(View.VISIBLE);
-        mLocationTextView.setVisibility(View.VISIBLE);
+    private void showDryCleaning() {
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
