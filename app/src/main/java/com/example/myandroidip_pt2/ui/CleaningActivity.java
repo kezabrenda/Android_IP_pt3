@@ -108,7 +108,7 @@ public class CleaningActivity extends AppCompatActivity {
             getDryCleaning(mRecentAddress);
         }
     }
-    }
+
     private void showFailureMessage() {
         mErrorTextView.setText("Something went wrong. Please check your Internet connection and try again later");
         mErrorTextView.setVisibility(View.VISIBLE);
