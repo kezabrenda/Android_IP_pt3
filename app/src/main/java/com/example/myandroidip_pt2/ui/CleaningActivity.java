@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myandroidip_pt2.Constants;
 import com.example.myandroidip_pt2.adapters.CleaningListAdapter;
 import com.example.myandroidip_pt2.models.Business;
 import com.example.myandroidip_pt2.models.Category;
@@ -32,6 +35,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CleaningActivity extends AppCompatActivity {
+    private SharedPreferences mSharedPreferences;
+    private String mRecentAddress;
+
     private static final String TAG = CleaningActivity.class.getSimpleName();
 
     @BindView(R.id.locationTextView) TextView mLocationTextView;
@@ -95,6 +101,13 @@ public class CleaningActivity extends AppCompatActivity {
                 showFailureMessage();
             }
         });
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
+        if (mRecentAddress != null) {
+            getDryCleaning(mRecentAddress);
+        }
+    }
     }
     private void showFailureMessage() {
         mErrorTextView.setText("Something went wrong. Please check your Internet connection and try again later");
