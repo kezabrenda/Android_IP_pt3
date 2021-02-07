@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myandroidip_pt2.Constants;
 import com.example.myandroidip_pt2.R;
 import com.example.myandroidip_pt2.Cleaning;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -87,6 +91,13 @@ public class CleaningDetailFragment extends Fragment implements View.OnClickList
                             + "," + mCleaning.getLongitude()
                             + "?q=(" + mCleaning.getName() + ")"));
             startActivity(mapIntent);
+        }
+        if (v == mSaveDryCleaningButton) {
+            DatabaseReference cleaningRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_CLEANING);
+            cleaningRef.push().setValue(mCleaning);
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
     }
 }
