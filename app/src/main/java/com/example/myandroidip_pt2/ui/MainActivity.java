@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.myandroidip_pt2.Constants;
 import com.example.myandroidip_pt2.R;
+import com.example.myandroidip_pt2.SavedCleaningListActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference mSearchedLocationReference;
     private ValueEventListener mSearchedLocationReferenceListener;
+    @BindView(R.id.savedDryCleaningButton) Button mSavedDryCleaningButton;
 
 
     @BindView(R.id.findPlacesButton) Button mFindPlacesButton;
@@ -35,14 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         mSearchedLocationReference = FirebaseDatabase
                 .getInstance()
                 .getReference()
                 .child(Constants.FIREBASE_CHILD_SEARCHED_LOCATION);
-
         mSearchedLocationReferenceListener = mSearchedLocationReference.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) { //something changed!
                 for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAppNameTextView.setTypeface(ostrichFont);
 
         mFindPlacesButton.setOnClickListener(this);
+        mSavedDryCleaningButton.setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Intent intent = new Intent(MainActivity.this, LocateMeActivity.class);
             intent.putExtra("location", location);
+            startActivity(intent);
+        }
+        if (v == mSavedDryCleaningButton) {
+            Intent intent = new Intent(MainActivity.this, SavedCleaningListActivity.class);
             startActivity(intent);
         }
     }

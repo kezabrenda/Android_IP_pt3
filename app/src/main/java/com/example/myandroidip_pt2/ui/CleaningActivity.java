@@ -47,9 +47,6 @@ public class CleaningActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     private CleaningListAdapter mAdapter;
 
-//    private SharedPreferences mSharedPreferences;
-//    private String mRecentAddress;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +57,6 @@ public class CleaningActivity extends AppCompatActivity {
         String location = intent.getStringExtra("location");
         getDryCleaning(location);
 
-//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
-//        if(mRecentAddress != null){
-//            getDryCleaning(mRecentAddress);
-//        }
     }
 
     private void getDryCleaning(String location){

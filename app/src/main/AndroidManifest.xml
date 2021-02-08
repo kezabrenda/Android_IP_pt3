@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAndroidIppt2">
-        <activity android:name=".ui.CleaningDetailActivity"></activity>
+        <activity android:name=".SavedCleaningListActivity"></activity>
+        <activity android:name=".ui.CleaningDetailActivity" />
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/NoActionBarTheme">
