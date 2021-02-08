@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.myandroidip_pt2.Constants;
 import com.example.myandroidip_pt2.R;
 import com.example.myandroidip_pt2.Cleaning;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -93,10 +95,18 @@ public class CleaningDetailFragment extends Fragment implements View.OnClickList
             startActivity(mapIntent);
         }
         if (v == mSaveDryCleaningButton) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
             DatabaseReference cleaningRef = FirebaseDatabase
                     .getInstance()
-                    .getReference(Constants.FIREBASE_CHILD_CLEANING);
-            cleaningRef.push().setValue(mCleaning);
+                    .getReference(Constants.FIREBASE_CHILD_CLEANING)
+                    .child(uid);
+
+            DatabaseReference pushRef = cleaningRef.push();
+            String pushId = pushRef.getKey();
+            mCleaning.setPushId(pushId);
+            pushRef.setValue(mCleaning);
+
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
     }

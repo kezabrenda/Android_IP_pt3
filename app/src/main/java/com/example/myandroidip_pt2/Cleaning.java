@@ -16,6 +16,7 @@ public class Cleaning {
     double latitude;
     double longitude;
     ArrayList<String> categories = new ArrayList<>();
+    private String pushId;
 
     public Cleaning(){}
 
@@ -66,5 +67,13 @@ public class Cleaning {
 
     public ArrayList<String> getCategories() {
         return categories;
+    }
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
 }

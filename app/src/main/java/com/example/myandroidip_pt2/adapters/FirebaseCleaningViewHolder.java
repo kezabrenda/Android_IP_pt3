@@ -12,6 +12,8 @@ import com.example.myandroidip_pt2.Cleaning;
 import com.example.myandroidip_pt2.Constants;
 import com.example.myandroidip_pt2.R;
 import com.example.myandroidip_pt2.ui.CleaningDetailActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,7 +52,15 @@ public class FirebaseCleaningViewHolder extends RecyclerView.ViewHolder implemen
     @Override
     public void onClick(View view) {
         final ArrayList<Cleaning> cleaning = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_CLEANING);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        DatabaseReference ref = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_CLEANING)
+                .child(uid);
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
